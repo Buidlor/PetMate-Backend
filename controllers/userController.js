@@ -5,7 +5,6 @@ require('dotenv').config();
 
 exports.register = async (req, res) => {
     try{
-        console.log(req.body)
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = new UserModel({
             username: req.body.username,
@@ -22,7 +21,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try{
-        const user = await model.findOne({username: req.body.username});
+        const user = await UserModel.findOne({username: req.body.username});
         if(user){
             const validPassword = await bcrypt.compare(req.body.password, user.password);
             if(validPassword){
@@ -70,7 +69,7 @@ exports.getUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try{
-        const user = await UserModel.updateOne({_id: req.params.id}, {$set: {username: req.body.username, email: req.body.email}});
+        const user = await UserModel.updateOne({_id: req.params.id}, {$set: {username: req.body.username, email: req.body.email, pictures: req.body.pictures}});
         res.status(200).json(user);
     }
     catch(err){
