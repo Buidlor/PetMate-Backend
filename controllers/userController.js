@@ -2,6 +2,7 @@ const UserModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const path = require('path');
 
 exports.register = async (req, res) => {
     try{
@@ -85,3 +86,23 @@ exports.deleteUser = async (req, res) => {
         res.status(400).json({message: err.message});
     }
 }
+
+exports.uploadPicture = async (req,res) => {
+    try{
+        const picturePath = path.join(req.user.username, req.file.filename);
+        
+        //Save the picture path to the user's pictures array in the database
+        const user = await UserModel.findOneAndUpdate(
+            { username: req.user.username },
+            { $addToSet: { pictures: picturePath } },
+            { new: true, runValidators: true } //return the updated user
+        );
+
+        if(!user){
+            return res.status(404).json({message: 'User not found'});
+        }
+        res.status(200).json({message: 'Picture uploaded successfully', picturePath});
+    }catch(err){
+        res.status(400).json({message: err.message});
+    }
+};
