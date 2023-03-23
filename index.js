@@ -5,7 +5,7 @@ require('dotenv').config();
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const mongostring = process.env.MONGO_URI;
 
 
