@@ -1,10 +1,21 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         //set the destination folder for user-specific pictures
-        cb(null, path.join(__dirname, 'uploads', req.user.username));
+        const destPath = path.join(__dirname, 'uploads', req.user.username);
+
+        //check if the destination folder exists, if not create it
+        fs.mkdir(destPath, { recursive: true }, (err) => {
+            if (err) {
+                cb(err);
+            }else{
+                cb(null, destPath);
+            }
+        });
+                
     },
     filename: (req, file, cb) => {
         //set the filename, you can customize it based on your requirements
@@ -26,7 +37,7 @@ const upload = multer({
     storage: storage, 
     fileFilter: fileFilter,
     limits: {
-        fileSize: 1024 * 1024 * 5 //5MB file limit
+        fileSize: 2048 * 1024 * 5 //10MB file limit
     },
 });
 

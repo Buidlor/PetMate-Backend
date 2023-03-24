@@ -70,7 +70,17 @@ exports.getUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try{
-        const user = await UserModel.updateOne({_id: req.params.id}, {$set: {username: req.body.username, email: req.body.email, pictures: req.body.pictures}});
+        const user = await UserModel.updateOne(
+            {_id: req.params.id},
+            {
+                $set: { 
+                    username: req.body.username, 
+                    email: req.body.email,
+                    pictures: req.body.pictures,
+                    characteristics: req.body.characteristics,
+                }
+            }
+        );
         res.status(200).json(user);
     }
     catch(err){
