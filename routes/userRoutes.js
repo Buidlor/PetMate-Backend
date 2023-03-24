@@ -12,7 +12,6 @@ router.get('/getOne/:id', userController.getUser);
 router.patch('/update/:id', userController.updateUser);
 router.delete('/delete/:id', userController.deleteUser);
 
-//route to handle picture upload
 router.post('/upload-picture',authenticate, upload.single('uploads'), userController.uploadPicture);
 
 
