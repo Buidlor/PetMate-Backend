@@ -3,7 +3,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const path = require('path');
+const fs = require('fs');
+const util =require('util');
+const unlink = util.promisify(fs.unlink);
 
+//register a new user
 exports.register = async (req, res) => {
     try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -20,6 +24,7 @@ exports.register = async (req, res) => {
     }
 }
 
+//login a user
 exports.login = async (req, res) => {
     try{
         const user = await UserModel.findOne({username: req.body.username});
@@ -41,6 +46,8 @@ exports.login = async (req, res) => {
     }
 }
 
+
+//logout a user
 exports.logout = async (req, res) => {
     try{
         res.status(200).json({message: 'Logged out'});
@@ -50,6 +57,7 @@ exports.logout = async (req, res) => {
 }
 
 
+//get all users
 exports.getUsers = async (req, res) => {
     try{
         const users = await UserModel.find();
@@ -59,6 +67,8 @@ exports.getUsers = async (req, res) => {
     }
 }
 
+
+//get a specific user
 exports.getUser = async (req, res) => {
     try{
         const user = await UserModel.findById(req.params.id);
@@ -68,6 +78,8 @@ exports.getUser = async (req, res) => {
     }
 }
 
+
+//update a user
 exports.updateUser = async (req, res) => {
     try{
         const user = await UserModel.updateOne(
@@ -88,6 +100,8 @@ exports.updateUser = async (req, res) => {
     }
 }
 
+
+//delete a user
 exports.deleteUser = async (req, res) => {
     try{
         const user = await UserModel.remove({_id: req.params.id});
@@ -97,6 +111,8 @@ exports.deleteUser = async (req, res) => {
     }
 }
 
+
+//upload a picture
 exports.uploadPicture = async (req,res) => {
     try{
         const picturePath = path.join(req.user.username, req.file.filename);
@@ -112,6 +128,31 @@ exports.uploadPicture = async (req,res) => {
             return res.status(404).json({message: 'User not found'});
         }
         res.status(200).json({message: 'Picture uploaded successfully', picturePath});
+    }catch(err){
+        res.status(400).json({message: err.message});
+    }
+};
+
+
+//delete a picture
+exports.deletePicture = async (req,res) => {
+    try{
+        const picturePath = path.join('uploads', req.user.username, req.params.picture);
+
+        //Delete the picture from the server
+        await unlink(picturePath);
+
+        //Delete the picture path from the user's pictures array in the database
+        const user = await UserModel.findOneAndUpdate(
+            { username: req.user.username },
+            { $pull: { pictures: picturePath } },
+            { new: true, runValidators: true } //return the updated user
+        );
+
+        if(!user){
+            return res.status(404).json({message: 'User not found'});
+        }
+        res.status(200).json({message: 'Picture deleted successfully', picturePath});
     }catch(err){
         res.status(400).json({message: err.message});
     }
