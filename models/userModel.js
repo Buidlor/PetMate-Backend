@@ -73,8 +73,22 @@ const userSchema = new Schema({
         required: false,
         default: {}
     },
-
-
+    liking: {
+        type: Array,
+        required: false,
+        default: []
+    },
+    liked: {
+        type: Array,
+        required: false,
+        default: []
+    },
+    matches: {
+        type: Array,
+        required: false,
+        default: []
+    }
+    
 });
 const User = mongoose.model('User', userSchema);
 module.exports = User;
