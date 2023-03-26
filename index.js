@@ -12,7 +12,7 @@ const mongostring = process.env.MONGO_URI;
 
 //start server
 app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
 
 //connect to db

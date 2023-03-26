@@ -115,7 +115,7 @@ exports.deleteUser = async (req, res) => {
 //upload a picture
 exports.uploadPicture = async (req,res) => {
     try{
-        const picturePath = path.join(req.user.username, req.file.filename);
+        const picturePath = path.join('uploads', req.user.username, req.file.filename);
         
         //Save the picture path to the user's pictures array in the database
         const user = await UserModel.findOneAndUpdate(
