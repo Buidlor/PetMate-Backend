@@ -9,7 +9,6 @@ const port = process.env.PORT || 4000;
 const mongostring = process.env.MONGO_URI;
 
 
-
 //start server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

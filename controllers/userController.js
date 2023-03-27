@@ -162,3 +162,38 @@ exports.deletePicture = async (req,res) => {
         res.status(400).json({message: err.message});
     }
 };
+
+exports.likeUser = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const likedUserId = req.params.userId;
+
+        // Update the liking user's 'liking' array
+        await UserModel.updateOne(
+            { _id: userId },
+            { $addToSet: { linking: likedUserId } }
+        );
+
+        //  Update the liked user's 'liked' array
+        await UserModel.updateOne(
+            { _id: likedUserId },
+            { $addToSet: { liked: userId } }
+        );
+
+        // Check if the liked user has liked the liking user
+        const likedUser = await UserModel.findOne({ _id: likedUserId });
+        if (likedUser.liked.includes(userId)) {
+            await UserModel.updateOne(
+                { _id: userId },
+                { $addToSet: { matching: likedUserId } }
+            );
+            await UserModel.updateOne(
+                { _id: likedUserId },
+                { $addToSet: { matching: userId } }
+            );
+        }
+        res.status(200).json({ message: 'User liked successfully' });
+    }catch(err){
+        res.status(400).json({message: err.message});
+    }
+};
