@@ -14,7 +14,9 @@ exports.register = async (req, res) => {
         const user = new UserModel({
             username: req.body.username,
             password: hashedPassword,
-            email: req.body.email
+            email: req.body.email,
+            description: req.body.description,
+            characteristics: req.body.characteristics
         });
         const savedUser = await user.save();
         res.status(200).json(savedUser);
