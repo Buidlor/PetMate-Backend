@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
         if(user){
             const validPassword = await bcrypt.compare(req.body.password, user.password);
             if(validPassword){
-                const token = jwt.sign({username: user.username, email: user.email}, process.env.TOKEN_SECRET);
+                const token = jwt.sign({_id: user._id, username: user.username, email: user.email}, process.env.TOKEN_SECRET);
                 res.status(200).json({token: token, message: 'Logged in'});
             }
             else{
@@ -163,11 +163,13 @@ exports.deletePicture = async (req,res) => {
     }
 };
 
+//like and match a user
 exports.likeUser = async (req, res) => {
     try {
-        const userId = req.user._id;
+        const userId = req.user;
         const likedUserId = req.params.userId;
 
+        console.log({ userId })
         // Update the liking user's 'liking' array
         await UserModel.updateOne(
             { _id: userId },

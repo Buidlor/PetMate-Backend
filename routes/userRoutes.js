@@ -15,6 +15,6 @@ router.delete('/delete/:id', userController.deleteUser);
 router.post('/upload-picture',authenticate, upload.single('uploads'), userController.uploadPicture);
 router.delete('/delete-picture/:picture',authenticate, userController.deletePicture);
 
-
+router.post('/like/:userId',authenticate, userController.likeUser);
 module.exports = router;
 
