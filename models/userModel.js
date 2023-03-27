@@ -38,39 +38,36 @@ const userSchema = new Schema({
         default: ''
     },
     characteristics: {
-        type: {
-            animal: {
-                type: String,
-                required: false,
-                default: '' 
-            },
-            race: {
-                type: String,
-                required: false,
-                default: ''
-            },
-            age: {
-                type: Number,
-                required: false,
-                default: 0
-            },
-            weight: {
-                type: Number,
-                required: false,
-                default: 0
-            },
-            interests: {
-                type: Array,
-                required: false,
-                default: []
-            },
-            favoriteFoods: {
-                type: Array,
-                required: false,
-                default: []
-            }
+        animal: {
+            type: String,
+            required: false,
+            default: '' 
         },
-        required: false,
+        race: {
+            type: String,
+            required: false,
+            default: ''
+        },
+        age: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+        weight: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+        interests: {
+            type: Array,
+            required: false,
+            default: []
+        },
+        favoriteFoods: {
+            type: Array,
+            required: false,
+            default: []
+        },
         default: {}
     },
     liking: {
@@ -87,8 +84,7 @@ const userSchema = new Schema({
         type: Array,
         required: false,
         default: []
-    }
-    
+    } 
 });
 const User = mongoose.model('User', userSchema);
 module.exports = User;
