@@ -90,8 +90,11 @@ exports.updateUser = async (req, res) => {
                 $set: { 
                     username: req.body.username, 
                     email: req.body.email,
-                    pictures: req.body.pictures,
+                    description: req.body.description,
                     characteristics: req.body.characteristics,
+                    liking: req.body.liking,
+                    liked: req.body.liked,
+                    matching: req.body.matching,
                 }
             }
         );
@@ -114,10 +117,10 @@ exports.deleteUser = async (req, res) => {
 }
 
 
-//upload a picture
+//upload a picture // PetMate-Backend\uploads\username\picture
 exports.uploadPicture = async (req,res) => {
     try{
-        const picturePath = path.join('uploads', req.user.username, req.file.filename);
+        const picturePath = path.join(__dirname, 'uploads', req.user.username, req.file.filename);
         
         //Save the picture path to the user's pictures array in the database
         const user = await UserModel.findOneAndUpdate(
