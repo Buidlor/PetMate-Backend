@@ -166,7 +166,7 @@ exports.deletePicture = async (req,res) => {
 //like and match a user
 exports.likeUser = async (req, res) => {
     try {
-        const userId = req.user;
+        const userId = req.user._id;
         const likedUserId = req.params.userId;
 
         console.log({ userId })
