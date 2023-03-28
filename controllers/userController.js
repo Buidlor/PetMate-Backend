@@ -7,6 +7,8 @@ const fs = require('fs');
 const util =require('util');
 const unlink = util.promisify(fs.unlink);
 
+const projectRoot = path.resolve(__dirname, '..');
+
 //register a new user
 exports.register = async (req, res) => {
     try{
@@ -120,7 +122,7 @@ exports.deleteUser = async (req, res) => {
 //upload a picture // PetMate-Backend\uploads\username\picture
 exports.uploadPicture = async (req,res) => {
     try{
-        const picturePath = path.join(__dirname, 'uploads', req.user.username, req.file.filename);
+        const picturePath = path.join(projectRoot, 'uploads', req.user.username, req.file.filename);
         
         //Save the picture path to the user's pictures array in the database
         const user = await UserModel.findOneAndUpdate(
@@ -142,7 +144,7 @@ exports.uploadPicture = async (req,res) => {
 //delete a picture
 exports.deletePicture = async (req,res) => {
     try{
-        const picturePath = path.join('uploads', req.user.username, req.params.picture);
+        const picturePath = path.join(projectRoot,'uploads', req.user.username, req.params.picture);
 
         //Delete the picture from the server
         await unlink(picturePath);

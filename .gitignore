@@ -17,3 +17,6 @@ yarn-error.log*
 *.swn
 *.log
 .DS_Store
+
+uploads/
+
