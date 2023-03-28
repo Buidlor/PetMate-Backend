@@ -191,7 +191,7 @@ exports.likeUser = async (req, res) => {
             );
             await UserModel.updateOne(
                 { _id: likedUserId },
-                { $addToSet: { matching: userId } }
+                { $addToSet: { matches: userId } }
             );
         }
         res.status(200).json({ message: 'User liked successfully' });
