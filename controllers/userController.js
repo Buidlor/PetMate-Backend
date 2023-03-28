@@ -169,11 +169,11 @@ exports.likeUser = async (req, res) => {
         const userId = req.user._id;
         const likedUserId = req.params.userId;
 
-        console.log({ userId })
+        console.log({ likedUserId }, { userId })
         // Update the liking user's 'liking' array
         await UserModel.updateOne(
             { _id: userId },
-            { $addToSet: { linking: likedUserId } }
+            { $addToSet: { liking: likedUserId } }
         );
 
         //  Update the liked user's 'liked' array
