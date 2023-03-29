@@ -165,6 +165,19 @@ exports.deletePicture = async (req,res) => {
     }
 };
 
+//fetch a user's pictures
+
+exports.getPictures = async (req, res) => {
+    try{
+        const imgPaths = req.user.pictures;
+        res.status(200).json(imgPaths);
+    }catch(err){
+        res.status(400).json({message: err.message});
+    }
+}
+
+
+
 //like and match a user
 exports.likeUser = async (req, res) => {
     try {
