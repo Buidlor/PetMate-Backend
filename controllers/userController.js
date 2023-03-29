@@ -166,11 +166,17 @@ exports.deletePicture = async (req,res) => {
 };
 
 //fetch a user's pictures
-
-exports.getPictures = async (req, res) => {
+exports.getPicture = async (req, res) => {
     try{
-        const imgPaths = req.user.pictures;
-        res.status(200).json(imgPaths);
+        const imgPaths = req.body.picture;
+        console.log(imgPaths);
+        if(fs.existsSync(imgPaths)){
+            res.setHeader('Content-Type', 'image/jpeg');
+            res.sendFile(imgPaths);
+        }else{
+            res.status(404).json({message: 'Image not found'});
+        }
+       
     }catch(err){
         res.status(400).json({message: err.message});
     }
