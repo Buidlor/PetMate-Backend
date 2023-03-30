@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
             const validPassword = await bcrypt.compare(req.body.password, user.password);
             if(validPassword){
                 const token = jwt.sign({_id: user._id, username: user.username, email: user.email}, process.env.TOKEN_SECRET);
-                res.status(200).json({token: token, message: 'Logged in'});
+                res.status(200).json({token: token, message: 'Logged in', user: user.username, _id: user._id});
             }
             else{
                 res.status(400).json({message: 'Invalid password'});
@@ -86,6 +86,7 @@ exports.getUser = async (req, res) => {
 //update a user
 exports.updateUser = async (req, res) => {
     try{
+        const userId = req.user._id;
         const user = await UserModel.updateOne(
             {_id: req.params.id},
             {
