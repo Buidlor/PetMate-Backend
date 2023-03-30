@@ -86,7 +86,7 @@ exports.getUser = async (req, res) => {
 //update a user
 exports.updateUser = async (req, res) => {
     try{
-        const userId = req.user._id;
+       
         const user = await UserModel.updateOne(
             {_id: req.params.id},
             {
