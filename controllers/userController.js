@@ -170,8 +170,23 @@ exports.getPicture = async (req, res) => {
     try{
         const imgPaths = req.body.picture;
         console.log(imgPaths);
+        const ext = path.extname(imgPaths).toLocaleLowerCase();
+        
+        
         if(fs.existsSync(imgPaths)){
-            res.setHeader('Content-Type', 'image/jpeg');
+            switch(ext){
+            case '.jpg':
+            case '.jpeg':   
+                res.setHeader('Content-Type', 'image/jpeg');
+                break;
+
+            case '.png':
+                res.setHeader('Content-Type', 'image/png');
+                break;
+            default:
+                res.setHeader('application/octet-stream');
+                break;
+            }
             res.sendFile(imgPaths);
         }else{
             res.status(404).json({message: 'Image not found'});
