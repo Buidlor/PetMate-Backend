@@ -189,6 +189,7 @@ exports.getPicture = async (req, res) => {
                 break;
             }
             res.sendFile(imgPaths);
+            
         }else{
             res.status(404).json({message: 'Image not found'});
         }
