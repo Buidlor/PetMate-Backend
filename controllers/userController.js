@@ -222,7 +222,7 @@ exports.likeUser = async (req, res) => {
 
         // Check if the liked user has liked the liking user
         const likedUser = await UserModel.findOne({ _id: likedUserId });
-        if (likedUser.liked.includes(userId)) {
+        if (likedUser.liking.includes(userId)) {
             await UserModel.updateOne(
                 { _id: userId },
                 { $addToSet: { matches: likedUserId } }
