@@ -7,6 +7,7 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 const port = process.env.PORT || 4000;
 const mongostring = process.env.MONGO_URI;
+const localMongostring = process.env.LOCAL_MONGO_URI;
 
 
 //start server
@@ -17,10 +18,8 @@ app.listen(port, () => {
 //connect to db
 const connectDB = async () => {
     try {
-        await mongoose.connect(mongostring, { 
-            useNewUrlParser: true, 
-            useUnifiedTopology: true,
-         });
+        await mongoose.connect(mongostring, { useNewUrlParser: true, useUnifiedTopology: true });
+      
         console.log('MongoDB Connected...');
     } catch (err) {
         console.error(err.message);

@@ -224,7 +224,7 @@ exports.likeUser = async (req, res) => {
         if (likedUser.liked.includes(userId)) {
             await UserModel.updateOne(
                 { _id: userId },
-                { $addToSet: { matching: likedUserId } }
+                { $addToSet: { matches: likedUserId } }
             );
             await UserModel.updateOne(
                 { _id: likedUserId },
