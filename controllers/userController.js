@@ -101,7 +101,7 @@ exports.updateUser = async (req, res) => {
                 }
             }
         );
-        console.log(result.nModified); // log the nModified field
+        console.log(user.nModified); // log the nModified field
         res.status(200).json({message: "User updated successfully"});
     }
     catch(err){
