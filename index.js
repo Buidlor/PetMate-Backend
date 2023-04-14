@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 const mongostring = process.env.MONGO_URI;
 const localMongostring = process.env.LOCAL_MONGO_URI;
+const io = require('socket.io')(port);
 
 
 //start server
