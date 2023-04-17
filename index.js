@@ -26,13 +26,15 @@ server.listen(port, () => {
 io.on('connection', (socket) => {
     console.log('User connected to server: ', socket.id);
     socket.on('join_room', (data) => {
-        socket.join(data);
-        console.log(`User with id ${socket.id} joined room: ${data}`);
+        socket.join(data.room);
+        
+        console.log(`User with id ${socket.id} joined room: ${data.room}`);
     });
 
     socket.on('send_message', (data) => {
         console.log('the data is: ' + JSON.stringify(data));
-        //io.emit('send_message', data);
+        io.to(data.room).emit('receive_message', data);
+        console.log(`Message sent to room ${data.room}: ${JSON.stringify(data)}`);
     });
 
     socket.on('disconnect', () => {
